@@ -2,9 +2,12 @@
 
 if (typeof require === 'function') {
   var moment = require('moment');
+  if (moment.default) {
+    moment = moment.default;
+  }
 }
 
-moment.default.fn.isHoliday = function () {
+moment.fn.isHoliday = function () {
   var locale = this.localeData();
 
   if (locale._holidays && locale._holidays.indexOf(this.format(locale._holidayFormat)) >= 0) {
@@ -21,7 +24,7 @@ moment.default.fn.isHoliday = function () {
   return false;
 };
 
-moment.default.fn.isBusinessDay = function () {
+moment.fn.isBusinessDay = function () {
   var locale = this.localeData();
   var defaultWorkingWeekdays = [1, 2, 3, 4, 5];
   var workingWeekdays = locale._workingWeekdays || defaultWorkingWeekdays;
@@ -37,7 +40,7 @@ moment.default.fn.isBusinessDay = function () {
   return false;
 };
 
-moment.default.fn.businessDaysIntoMonth = function () {
+moment.fn.businessDaysIntoMonth = function () {
   if (!this.isValid()) {
     return NaN;
   }
@@ -66,7 +69,7 @@ moment.default.fn.businessDaysIntoMonth = function () {
   return businessDaysIntoMonth;
 };
 
-moment.default.fn.businessDiff = function (param, relative) {
+moment.fn.businessDiff = function (param, relative) {
   var d1 = this.clone();
   var d2 = param.clone();
   var positive = d1 >= d2;
@@ -97,7 +100,7 @@ moment.default.fn.businessDiff = function (param, relative) {
   return daysBetween;
 };
 
-moment.default.fn.businessAdd = function (number, period) {
+moment.fn.businessAdd = function (number, period) {
   var day = this.clone();
   if (!day.isValid()) {
     return day;
@@ -124,11 +127,11 @@ moment.default.fn.businessAdd = function (number, period) {
   return day;
 };
 
-moment.default.fn.businessSubtract = function (number, period) {
+moment.fn.businessSubtract = function (number, period) {
   return this.businessAdd(-number, period);
 };
 
-moment.default.fn.nextBusinessDay = function () {
+moment.fn.nextBusinessDay = function () {
   var locale = this.localeData();
   var loop = 1;
   var defaultNextBusinessDayLimit = 7;
@@ -142,7 +145,7 @@ moment.default.fn.nextBusinessDay = function () {
   return this;
 };
 
-moment.default.fn.prevBusinessDay = function () {
+moment.fn.prevBusinessDay = function () {
   var locale = this.localeData();
   var loop = 1;
   var defaultPrevBusinessDayLimit = 7;
@@ -156,7 +159,7 @@ moment.default.fn.prevBusinessDay = function () {
   return this;
 };
 
-moment.default.fn.monthBusinessDays = function (partialEndDate) {
+moment.fn.monthBusinessDays = function (partialEndDate) {
   if (!this.isValid()) {
     return [];
   }
@@ -180,7 +183,7 @@ moment.default.fn.monthBusinessDays = function (partialEndDate) {
   return daysArr;
 };
 
-moment.default.fn.monthNaturalDays = function (fromToday) {
+moment.fn.monthNaturalDays = function (fromToday) {
   if (!this.isValid()) {
     return [];
   }
@@ -198,13 +201,13 @@ moment.default.fn.monthNaturalDays = function (fromToday) {
   return daysArr;
 };
 
-moment.default.fn.monthBusinessWeeks = function (fromToday) {
+moment.fn.monthBusinessWeeks = function (fromToday) {
   fromToday = fromToday || false;
   var startDate = fromToday ? this.clone() : this.clone().startOf('month');
   return _getBusinessWeeks(this, null, startDate);
 };
 
-moment.default.fn.businessWeeksBetween = function (endDate) {
+moment.fn.businessWeeksBetween = function (endDate) {
   var startDate = this.clone();
   return _getBusinessWeeks(this, endDate, startDate);
 };
@@ -241,7 +244,7 @@ var _getBusinessWeeks = function (self, endDate, startDate) {
   return weeksArr;
 };
 
-moment.default.fn.monthNaturalWeeks = function (fromToday) {
+moment.fn.monthNaturalWeeks = function (fromToday) {
   if (!this.isValid()) {
     return [];
   }
